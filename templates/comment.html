@@ -1,0 +1,83 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="..static/css/style.css">
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	</head>
+	<body>
+		<div id="old-posts"></div>
+		<form onsubmit="return false">
+			<div class="half left cf" style="float: left;
+		    width: 48%;
+		    margin-bottom: 1em;margin-right: 2%;">
+				<label>Name</label><br>
+				<!-- <input id='input-name' type="text" style="font-size:18pt;height:50px;width:250px;" placeholder="Name" ><br><br> -->
+				<input id='input-name' type="text" style="font-family: helvetica;
+				font-size: 24px;
+				font-style: italic;
+				text-align: right;
+				margin-right: 10%;
+				color: black;" placeholder="Name" ><br><br>
+			</div>
+			<div class="half right cf" style="float: left;
+		    width: 48%;
+		    margin-bottom: 1em; width: 50%;">
+				<label>Comment</label><br>
+				<!-- <textarea id='input-message' style="font-size:18pt;height:200px;width:300px;" placeholder="Tell people your thought on this article!"></textarea><br><br> -->
+				<textarea id='input-message' style="font-family: helvetica;
+				font-size: 24px;
+				color: black;" placeholder="Tell people your thought on this article!"></textarea><br><br>
+
+			</div>
+			<input id='input-submit' type="submit" onclick="comment()" style="background-color: rgb(255, 212, 128);
+		    border: none;
+		    color: black;
+		    padding: 15px 32px;
+		    text-align: center;
+		    text-decoration: none;
+		    display: inline-block;
+		    font-size: 20px;
+		    cursor:pointer;">
+		</form>
+		<!-- <script src="../static/js/script.js"></script> -->
+		<script type="text/javascript">
+		var chart = document.getElementById('old-posts');
+		var title = localStorage.getItem("current");
+		var comments = [];
+
+		function comment() {
+			var user = document.getElementById('input-name').value;
+			var msg = document.getElementById('input-message').value;
+			// insert user and msg
+			var post_name = document.createElement('div');
+			post_name.innerHTML = " | " + user;
+			post_name.className += 'comment-name';
+			var post_comment = document.createElement('div');
+			post_comment.innerHTML = msg;
+			post_comment.className += 'comment-post';
+			chart.appendChild(post_comment);
+			chart.appendChild(post_name);
+			chart.appendChild(document.createElement('hr'));
+			parent.postMessage("resize","*");
+
+			comments.push({name:user, comment: msg});
+			localStorage.setItem(title, JSON.stringify(comments));
+			document.getElementById('input-name').value = '';
+			document.getElementById('input-message').value = '';
+
+			// restore
+			var storage = localStorage.getItem(title);
+			if (storage != null) {
+				var old_comments = JSON.parse(storage);
+				for (var i = 0; i < old_comments.length; i++) {
+					var n = old_comments[i].name;
+					var c = old_comments[i].comment;
+					insert(n, c);
+					comments.push({name:n, comment: c});
+				}
+			}
+		}
+		</script>
+
+
+	</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Contact Us</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" type="text/css" href="/static/css/style.css" >
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+		<style>
+			body  {
+				background-image: url("../static/image/tbl_content.jpg");
+				background-repeat: no-repeat;
+				background-size: cover;
+				background-position: center;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="navigation" style="background-color: hsla(69, 47%, 100%, 0.55);
+			top: 0;
+			width: 100%;
+			padding: 30px;
+			position: fixed;
+			overflow: hidden;
+			float: left;
+			margin-bottom: 10px;">
+				<p class="navi_element" style="font-family: helvetica;
+				font-size: 25px;
+				color: black;
+				float: left;
+				margin-left: 2%"><a href="index" style="color: black;
+				font-weight: bold; font-size: 30px;">Home</a></p>
+				<p class="navi_element" style="font-family: helvetica;
+				font-size: 25px;
+				color: black;
+				float: left;
+				margin-left: 2%"><a href="AboutUs" style="color: black;
+				font-weight: bold; font-size: 30px;">About Us</a></p>
+				<p class="navi_element" style="font-family: helvetica;
+				font-size: 25px;
+				color: black;
+				float: left;
+				margin-left: 2%"><a href="ContactUs" style="color: black;
+				font-weight: bold; font-size: 30px;">Contact Us</a></p>
+			</div>
+		</header>
+
+		<!-- <p id="pop" hidden style="background-color:rgba(255, 255, 255, 0.8); list-style: none; border-radius: 10px; padding: 0px; margin:0px; position: fixed;"></p> -->
+		<!-- <p id="pop" hidden style="background-color:rgba(255, 255, 255, 0.8); border-radius: 10px; padding: 10px; margin-left: 30%; margin-right: 30%; margin-top: 100px;"></p> -->
+		<p id="pop" hidden style="background-color:rgba(255, 255, 255, 0.8); border-radius: 10px; padding: 10px; margin-left: 30%; margin-right: 30%; margin-top: 100px;position: fixed;"></p>
+		<div class="content" style="background-color: hsla(69, 47%, 100%, 0.55);
+		width: 30%;
+		max-width: 100%;
+		margin-top: 150px;
+		margin-left: 30%;
+		padding: 55px;
+		border-radius: 20px;
+		position: relative;
+		overflow: hidden;">
+			<form class="cf" onsubmit="return false" style="max-width: 600px;
+		    text-align: center;
+		    margin: 20px auto;
+		    min-height:300px;">
+				<div class="half left cf" style="float: left;
+			    width: 48%;
+			    margin-bottom: 1em;
+				margin-right: 2%;">
+					<input type="text" id="input-name" style="font-size:18pt;height:50px;width:250px;" placeholder="Name">
+					<input type="email" id="input-email" style="font-size:18pt;height:50px;width:250px;" placeholder="Email address">
+					<input type="text" id="input-subject" style="font-size:18pt;height:50px;width:250px;" placeholder="Subject">
+				</div>
+
+				<div class="half right cf" style="float: left;
+			    width: 48%;
+			    margin-bottom: 1em;
+				width: 50%;">
+					<textarea name="message" type="text" id="input-message" style="font-size:18pt;height:200px;width:300px;" placeholder="Message"></textarea>
+				</div>
+				<input id="input-submit" type="submit" value="Submit" onclick="callback()" style="background-color: rgb(255, 212, 128);
+			    border: none;
+			    color: black;
+			    padding: 15px 32px;
+			    text-align: center;
+			    text-decoration: none;
+			    display: inline-block;
+			    font-size: 20px;
+			    cursor:pointer;" />
+			</form>
+  		</div>
+
+
+		<!-- <script src="/static/js/script.js "></script> -->
+		<script type="text/javascript">
+			function callback() {
+				missing = findMissing();
+				var pop = document.getElementById('pop');
+				if (pop.hidden) {
+			        pop.hidden = false;
+			    }
+				if (missing == '') {
+					pop.style.color = "black";
+					pop.innerHTML = "Your message has been sent successfully";
+
+					var xhttp = new XMLHttpRequest();
+			        xhttp.onreadystatechange = function() {
+			            if (this.readyState == 4 && this.status == 204) {
+			                pop.style.color = "black";
+			                pop.innerHTML = "Your message has been sent successfully";
+			            }
+			        };
+			        xhttp.open("POST", "/f", true);
+			        xhttp.send('{"name":"' + document.getElementById('name').value + '","email":"' + document.getElementById('input-email').value + '","subject":"' + document.getElementById('input-subject').value + '","msg":"' + document.getElementById('input-message').value + '"}')
+
+				}else {
+					pop.style.color = "red";
+			        pop.innerHTML = "Fields " + missing.substr(0, missing.length-1) + " need to be filled out";
+				}
+			}
+
+			function findMissing() {
+				var missing = '';
+				if (document.getElementById('input-name').value == '') {
+					missing += "Name,";
+				}
+				if (document.getElementById('input-email').value == '') {
+					missing += "Email,";
+				}
+				if (document.getElementById('input-subject').value == '') {
+					missing += "Subject,";
+				}
+				if (document.getElementById('input-message').value == '') {
+					missing += "Message,";
+				}
+				return missing;
+			}
+		</script>
+
+		<footer id="myFooter" style="position:absolute;
+		bottom:0;
+		width:100%;
+		height:100px;">
+			<div class="container" style="text-align: center;">
+				<ul style="list-style-type: none;
+				padding: 0;
+				margin-bottom: 18px;">
+					<li><a href="index" style="color: #282b2d;
+					font-size: 18px;">Home</a></li>
+					<li><a href="ContactUs" style="color: #282b2d;
+					font-size: 18px;">Contact us</a></li>
+					<li><a href="AboutUs" style="color: #282b2d;
+					font-size: 18px;">About Us</a></li>
+				</ul>
+			<p class="footer-copyright" style="margin-bottom: 35px; text-align: center; color: black;">© 2017 Copyright</p>
+			</div>
+			<div class="footer-social">
+				<a href="#" class="social-icons"><i class="fa fa-facebook"></i></a>
+				<a href="#" class="social-icons"><i class="fa fa-google-plus"></i></a>
+				<a href="#" class="social-icons"><i class="fa fa-twitter"></i></a>
+			</div>
+		</footer>
+	</body>
+
+</html>
